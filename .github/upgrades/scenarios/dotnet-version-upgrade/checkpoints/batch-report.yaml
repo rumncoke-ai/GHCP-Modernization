@@ -1,0 +1,97 @@
+schema_version: 1
+scenario: dotnet-version-upgrade
+status: passed
+branch: upgrade-dotnet-10
+baseline:
+  framework_build:
+    status: passed
+    projects_built: 4
+    warnings: 0
+    errors: 0
+  framework_tests:
+    status: blocked_by_environment
+    expected_tests: 5
+    exact_limitation: Visual Studio 18.10 ARM64 VSTest and its emulated x64 runner both reported "Failed to load extensions" for Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll from the package's net462 directory, so no .NET Framework tests were discovered.
+validation:
+  final_restore:
+    status: passed
+  final_release_build:
+    status: passed
+    projects_built: 4
+    warnings: 0
+    errors: 0
+  final_tests:
+    status: passed
+    total: 13
+    passed: 13
+    failed: 0
+    skipped: 0
+  runtime_sql_server_smoke:
+    status: passed
+    routes_tested: 8
+    responses_200: 8
+    routes:
+      - /
+      - /Products
+      - /Categories
+      - /Customers
+      - /Orders
+      - /Admin/Products
+      - /Categories/Create
+      - /css/site.css
+commits:
+  - sha: 39250dc
+    task: Convert non-web projects to SDK style
+  - sha: ef6ea52
+    task: Migrate foundation libraries to .NET 10
+  - sha: 9df4e5d
+    task: Migrate web application to ASP.NET Core
+  - sha: ffea344
+    task: Migrate tests and add ASP.NET Core coverage
+  - sha: f2da8a1
+    task: Remove legacy configuration assets
+warnings:
+  - The planned side-by-side rollback host was superseded by the explicit implementation requirement that every project be SDK-style net10.0 and obsolete System.Web assets be removed; LegacyShop.Web was migrated in place.
+  - EF6 remains the sole schema owner and ASP.NET Core startup explicitly disables automatic database initialization; migrations must be applied through the designated deployment process.
+changed_files:
+  modified:
+    - .gitignore
+    - LegacyShop.Business\LegacyShop.Business.csproj
+    - LegacyShop.Data\LegacyShop.Data.csproj
+    - LegacyShop.Data\StoreDbContext.cs
+    - LegacyShop.Tests\Business\OrderServiceTests.cs
+    - LegacyShop.Tests\Business\ProductServiceTests.cs
+    - LegacyShop.Tests\Controllers\ProductsControllerTests.cs
+    - LegacyShop.Tests\LegacyShop.Tests.csproj
+    - LegacyShop.Web\Areas\Admin\Controllers\ProductsController.cs
+    - LegacyShop.Web\Areas\Admin\Views\Products\Create.cshtml
+    - LegacyShop.Web\Areas\Admin\Views\Products\Edit.cshtml
+    - LegacyShop.Web\Controllers\CategoriesController.cs
+    - LegacyShop.Web\Controllers\CustomersController.cs
+    - LegacyShop.Web\Controllers\HomeController.cs
+    - LegacyShop.Web\Controllers\OrdersController.cs
+    - LegacyShop.Web\Controllers\ProductsController.cs
+    - LegacyShop.Web\LegacyShop.Web.csproj
+    - LegacyShop.Web\ViewModels\OrderCreateViewModel.cs
+    - LegacyShop.Web\Views\Categories\Create.cshtml
+    - LegacyShop.Web\Views\Categories\Edit.cshtml
+    - LegacyShop.Web\Views\Customers\Create.cshtml
+    - LegacyShop.Web\Views\Customers\Edit.cshtml
+    - LegacyShop.Web\Views\Orders\Create.cshtml
+    - LegacyShop.Web\Views\Shared\_Layout.cshtml
+  added:
+    - LegacyShop.Tests\Controllers\CrudControllerTests.cs
+    - LegacyShop.Tests\Data\StoreDbContextTests.cs
+    - LegacyShop.Tests\Integration\WebApplicationTests.cs
+    - LegacyShop.Tests\TestAssemblySettings.cs
+    - LegacyShop.Web\Areas\Admin\Views\_ViewImports.cshtml
+    - LegacyShop.Web\Program.cs
+    - LegacyShop.Web\Views\_ViewImports.cshtml
+    - LegacyShop.Web\appsettings.json
+  moved:
+    - from: LegacyShop.Web\Content\Site.css
+      to: LegacyShop.Web\wwwroot\css\site.css
+  removed_groups:
+    - Four packages.config files and all package HintPath references
+    - Legacy App.config, Web.config, Views Web.config, binding redirects, Global.asax, and App_Start files
+    - Legacy AssemblyInfo files replaced by SDK-generated assembly metadata

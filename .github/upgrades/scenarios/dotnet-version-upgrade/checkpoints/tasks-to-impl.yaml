@@ -1,0 +1,52 @@
+schema_version: 1
+scenario: dotnet-version-upgrade
+target_framework: net10.0
+branch: upgrade-dotnet-10
+execution_order:
+  - id: 01-generate-test-baseline
+    depends_on: []
+    status: completed_with_environment_limitation
+    result: Existing five-test baseline compiled; legacy discovery could not run because Visual Studio 18 ARM64 and emulated x64 VSTest failed to load the net462 MSTest adapter.
+  - id: 02-upgrade-prerequisites
+    depends_on:
+      - 01-generate-test-baseline
+    status: completed
+    result: .NET SDK 10.0.402 and Visual Studio MSBuild 18.10.1 restored and built the original four-project .NET Framework solution.
+  - id: 03-sdk-project-conversion
+    depends_on:
+      - 02-upgrade-prerequisites
+    status: completed
+    commit: 39250dc
+    result: Data, Business, and Tests converted from packages.config projects to SDK-style PackageReference projects before retargeting.
+  - id: 04-foundation-libraries
+    depends_on:
+      - 03-sdk-project-conversion
+    status: completed
+    commit: ef6ea52
+    result: Data and Business target net10.0; EF6 6.5.1 and SQL Server are retained, and StoreDbContext accepts an externally supplied connection string.
+  - id: 05-scaffold-web-host
+    depends_on:
+      - 04-foundation-libraries
+    status: completed
+    commit: 9df4e5d
+    result: Native ASP.NET Core hosting, configuration, DI, routing, static files, and explicit EF6 schema initialization policy were established.
+  - id: 06-migrate-web-application
+    depends_on:
+      - 05-scaffold-web-host
+    status: completed
+    commit: 9df4e5d
+    result: Existing controllers, area route, Razor views, anti-forgery attributes, CRUD behavior, anonymous access, and static assets moved to native ASP.NET Core APIs.
+  - id: 07-solution-validation
+    depends_on:
+      - 06-migrate-web-application
+    status: completed
+    commits:
+      - ffea344
+      - f2da8a1
+    result: Release solution build passed with zero warnings/errors, 13 tests passed, and eight live HTTP routes returned 200 against configured SQL Server.
+  - id: 08-validate-test-baseline
+    depends_on:
+      - 07-solution-validation
+    status: completed
+    commit: ffea344
+    result: The five original behavioral tests were migrated and passed with eight additional configuration, CRUD, routing, anti-forgery, static asset, and anonymous-access tests.
