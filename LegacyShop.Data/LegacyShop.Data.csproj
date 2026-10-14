@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>LegacyShop.Data</RootNamespace>
     <AssemblyName>LegacyShop.Data</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
-    <Reference Include="System.Configuration" />
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
   </ItemGroup>
 </Project>

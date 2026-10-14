@@ -1,5 +1,3 @@
-using System;
-using System.Configuration;
 using System.Data.Entity;
 using LegacyShop.Data.Entities;
 
@@ -7,29 +5,14 @@ namespace LegacyShop.Data
 {
     public class StoreDbContext : DbContext
     {
-        private const string FallbackLocalDbConnection = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LegacyShop;Integrated Security=True;MultipleActiveResultSets=True";
-
         public StoreDbContext()
-            : base(ResolveConnectionString())
+            : this("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LegacyShop;Integrated Security=True;MultipleActiveResultSets=True")
         {
         }
 
-        private static string ResolveConnectionString()
+        public StoreDbContext(string connectionString)
+            : base(connectionString)
         {
-            ConnectionStringSettings configuredConnection = ConfigurationManager.ConnectionStrings["LegacyShopContext"];
-            string configuredValue = configuredConnection != null ? configuredConnection.ConnectionString : null;
-
-            if (string.IsNullOrWhiteSpace(configuredValue))
-            {
-                return FallbackLocalDbConnection;
-            }
-
-            if (configuredValue.IndexOf("User Instance=True", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return FallbackLocalDbConnection;
-            }
-
-            return configuredValue;
         }
 
         public virtual DbSet<Category> Categories { get; set; }
