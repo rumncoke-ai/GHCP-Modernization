@@ -1,0 +1,21 @@
+@model LegacyShop.Web.ViewModels.ProductEditViewModel
+@{
+    ViewBag.Title = "Create product";
+}
+<h2>Create product</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-panel">
+        @Html.ValidationSummary(true)
+        <div class="field">@Html.LabelFor(m => m.Name) @Html.EditorFor(m => m.Name) @Html.ValidationMessageFor(m => m.Name)</div>
+        <div class="field">@Html.LabelFor(m => m.Description) @Html.TextAreaFor(m => m.Description) @Html.ValidationMessageFor(m => m.Description)</div>
+        <div class="field">@Html.LabelFor(m => m.Price) @Html.EditorFor(m => m.Price) @Html.ValidationMessageFor(m => m.Price)</div>
+        <div class="field">@Html.LabelFor(m => m.StockQuantity) @Html.EditorFor(m => m.StockQuantity) @Html.ValidationMessageFor(m => m.StockQuantity)</div>
+        <div class="field">@Html.LabelFor(m => m.CategoryId) @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.CategoryId, "-- Select category --") @Html.ValidationMessageFor(m => m.CategoryId)</div>
+        <div class="field">@Html.CheckBoxFor(m => m.IsActive) @Html.LabelFor(m => m.IsActive)</div>
+        <input type="submit" value="Create" />
+    </div>
+}
+<p>@Html.ActionLink("Back to products", "Index")</p>
+@section scripts { @Html.Partial("_ValidationScriptsPartial") }

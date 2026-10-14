@@ -1,0 +1,18 @@
+@model LegacyShop.Data.Entities.Order
+@{
+    ViewBag.Title = "Edit order";
+}
+<h2>Edit order #@Model.OrderId</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-panel">
+        @Html.ValidationSummary(true)
+        <div class="field">
+            <label for="status">Status</label>
+            @Html.DropDownList("status", (IEnumerable<SelectListItem>)ViewBag.Statuses)
+        </div>
+        <input type="submit" value="Save status" />
+    </div>
+}
+<p>@Html.ActionLink("Back to order", "Details", new { id = Model.OrderId })</p>

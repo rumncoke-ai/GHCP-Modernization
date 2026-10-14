@@ -1,0 +1,13 @@
+@model LegacyShop.Data.Entities.Category
+@{
+    ViewBag.Title = "Delete category";
+}
+<h2>Delete category</h2>
+@Html.ValidationSummary(true)
+<p>Delete <strong>@Model.Name</strong>? Categories containing products cannot be deleted.</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" value="Delete" class="danger" />
+}
+<p>@Html.ActionLink("Cancel", "Index")</p>

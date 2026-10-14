@@ -1,0 +1,10 @@
+@model LegacyShop.Data.Entities.Category
+@{
+    ViewBag.Title = "Category details";
+}
+<h2>@Model.Name</h2>
+<div class="details">
+    <p>@Model.Description</p>
+    <p><strong>Products:</strong> @Model.Products.Count</p>
+</div>
+<p>@Html.ActionLink("Edit", "Edit", new { id = Model.CategoryId }) | @Html.ActionLink("Back to categories", "Index")</p>

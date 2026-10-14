@@ -1,0 +1,14 @@
+@model LegacyShop.Data.Entities.Product
+@{
+    ViewBag.Title = "Delete product";
+}
+<h2>Delete product</h2>
+@Html.ValidationSummary(true)
+<p>Delete <strong>@Model.Name</strong>?</p>
+<p>Products used by orders cannot be deleted and should be marked inactive instead.</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" value="Delete" class="danger" />
+}
+<p>@Html.ActionLink("Cancel", "Index")</p>

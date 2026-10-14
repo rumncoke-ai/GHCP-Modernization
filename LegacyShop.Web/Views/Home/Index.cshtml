@@ -1,0 +1,18 @@
+@model IEnumerable<LegacyShop.Data.Entities.Product>
+@{
+    ViewBag.Title = "Home";
+}
+<h2>Welcome to LegacyShop</h2>
+<p>A deliberately traditional ASP.NET MVC 5 store used to practice modernization.</p>
+<h3>Featured products</h3>
+<div class="card-grid">
+    @foreach (var product in Model)
+    {
+        <div class="card">
+            <h3>@product.Name</h3>
+            <p>@product.Description</p>
+            <p><strong>@product.Price.ToString("C")</strong></p>
+            @Html.ActionLink("View details", "Details", "Products", new { id = product.ProductId }, new { @class = "button" })
+        </div>
+    }
+</div>

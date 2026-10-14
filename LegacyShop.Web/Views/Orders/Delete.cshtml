@@ -1,0 +1,13 @@
+@model LegacyShop.Web.ViewModels.OrderDetailsViewModel
+@{
+    ViewBag.Title = "Delete order";
+}
+<h2>Delete order #@Model.OrderId</h2>
+<p>Delete this @Model.Status order for <strong>@Model.CustomerName</strong>?</p>
+<p>The quantities on the order will be returned to product stock.</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" value="Delete order" class="danger" />
+}
+<p>@Html.ActionLink("Cancel", "Index")</p>

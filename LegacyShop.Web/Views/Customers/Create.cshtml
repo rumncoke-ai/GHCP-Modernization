@@ -1,0 +1,22 @@
+@model LegacyShop.Data.Entities.Customer
+@{
+    ViewBag.Title = "Create customer";
+}
+<h2>Create customer</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-panel">
+        @Html.ValidationSummary(true)
+        <div class="field">@Html.LabelFor(m => m.FirstName) @Html.EditorFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName)</div>
+        <div class="field">@Html.LabelFor(m => m.LastName) @Html.EditorFor(m => m.LastName) @Html.ValidationMessageFor(m => m.LastName)</div>
+        <div class="field">@Html.LabelFor(m => m.Email) @Html.EditorFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email)</div>
+        <div class="field">@Html.LabelFor(m => m.Phone) @Html.EditorFor(m => m.Phone)</div>
+        <div class="field">@Html.LabelFor(m => m.Address) @Html.EditorFor(m => m.Address)</div>
+        <div class="field">@Html.LabelFor(m => m.City) @Html.EditorFor(m => m.City)</div>
+        <div class="field">@Html.LabelFor(m => m.PostalCode) @Html.EditorFor(m => m.PostalCode)</div>
+        <input type="submit" value="Create" />
+    </div>
+}
+<p>@Html.ActionLink("Back to customers", "Index")</p>
+@section scripts { @Html.Partial("_ValidationScriptsPartial") }

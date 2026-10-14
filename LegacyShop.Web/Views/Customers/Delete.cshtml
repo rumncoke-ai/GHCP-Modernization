@@ -1,0 +1,13 @@
+@model LegacyShop.Data.Entities.Customer
+@{
+    ViewBag.Title = "Delete customer";
+}
+<h2>Delete customer</h2>
+@Html.ValidationSummary(true)
+<p>Delete <strong>@Model.FirstName @Model.LastName</strong>? Customers with orders cannot be deleted.</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" value="Delete" class="danger" />
+}
+<p>@Html.ActionLink("Cancel", "Index")</p>

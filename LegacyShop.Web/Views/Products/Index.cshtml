@@ -1,0 +1,31 @@
+@model LegacyShop.Web.ViewModels.ProductListViewModel
+@{
+    ViewBag.Title = "Products";
+}
+<h2>Products</h2>
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+    <div class="field">
+        <label for="categoryId">Category</label>
+        <select id="categoryId" name="categoryId">
+            <option value="">All categories</option>
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.CategoryId" selected="@(Model.SelectedCategoryId == category.CategoryId ? "selected" : null)">@category.Name</option>
+            }
+        </select>
+        <button type="submit">Filter</button>
+    </div>
+}
+<div class="card-grid">
+    @foreach (var product in Model.Products)
+    {
+        <div class="card">
+            <h3>@product.Name</h3>
+            <p class="muted">@product.Category.Name</p>
+            <p>@product.Description</p>
+            <p><strong>@product.Price.ToString("C")</strong> - @product.StockQuantity in stock</p>
+            @Html.ActionLink("Details", "Details", new { id = product.ProductId }, new { @class = "button" })
+        </div>
+    }
+</div>

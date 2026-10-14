@@ -1,0 +1,24 @@
+@model IEnumerable<LegacyShop.Data.Entities.Customer>
+@{
+    ViewBag.Title = "Customers";
+}
+<h2>Customers</h2>
+<p>@Html.ActionLink("Create customer", "Create", null, new { @class = "button" })</p>
+<table>
+    <thead><tr><th>Name</th><th>Email</th><th>City</th><th>Actions</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FirstName @item.LastName</td>
+            <td>@item.Email</td>
+            <td>@item.City</td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.CustomerId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.CustomerId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CustomerId })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

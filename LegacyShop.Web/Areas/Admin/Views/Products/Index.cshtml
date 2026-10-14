@@ -1,0 +1,26 @@
+@model IEnumerable<LegacyShop.Data.Entities.Product>
+@{
+    ViewBag.Title = "Admin - Products";
+}
+<h2>Admin product management</h2>
+<p>@Html.ActionLink("Create product", "Create", null, new { @class = "button" })</p>
+<table>
+    <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Active</th><th>Actions</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@(item.Category == null ? "" : item.Category.Name)</td>
+            <td>@item.Price.ToString("C")</td>
+            <td>@item.StockQuantity</td>
+            <td>@(item.IsActive ? "Yes" : "No")</td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

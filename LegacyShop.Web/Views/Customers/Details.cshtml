@@ -1,0 +1,12 @@
+@model LegacyShop.Data.Entities.Customer
+@{
+    ViewBag.Title = "Customer details";
+}
+<h2>@Model.FirstName @Model.LastName</h2>
+<div class="details">
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Phone:</strong> @Model.Phone</p>
+    <p><strong>Address:</strong> @Model.Address, @Model.City @Model.PostalCode</p>
+    <p><strong>Orders:</strong> @Model.Orders.Count</p>
+</div>
+<p>@Html.ActionLink("Edit", "Edit", new { id = Model.CustomerId }) | @Html.ActionLink("Back to customers", "Index")</p>

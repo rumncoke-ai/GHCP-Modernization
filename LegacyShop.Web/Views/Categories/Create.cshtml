@@ -1,0 +1,17 @@
+@model LegacyShop.Data.Entities.Category
+@{
+    ViewBag.Title = "Create category";
+}
+<h2>Create category</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-panel">
+        @Html.ValidationSummary(true)
+        <div class="field">@Html.LabelFor(m => m.Name) @Html.EditorFor(m => m.Name) @Html.ValidationMessageFor(m => m.Name)</div>
+        <div class="field">@Html.LabelFor(m => m.Description) @Html.TextAreaFor(m => m.Description) @Html.ValidationMessageFor(m => m.Description)</div>
+        <input type="submit" value="Create" />
+    </div>
+}
+<p>@Html.ActionLink("Back to categories", "Index")</p>
+@section scripts { @Html.Partial("_ValidationScriptsPartial") }

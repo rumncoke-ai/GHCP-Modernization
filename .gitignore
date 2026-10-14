@@ -1,0 +1,14 @@
+# Visual Studio local caches and user settings
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs and test results
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/
+
+# NuGet dependencies (restore from packages.config)
+/packages/

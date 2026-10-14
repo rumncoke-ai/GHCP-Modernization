@@ -1,0 +1,39 @@
+@model LegacyShop.Web.ViewModels.OrderCreateViewModel
+@{
+    ViewBag.Title = "Create order";
+}
+<h2>Create order</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-panel">
+        @Html.ValidationSummary(true)
+        <div class="field">
+            @Html.LabelFor(m => m.CustomerId)
+            @Html.DropDownListFor(m => m.CustomerId, Model.Customers, "-- Select customer --")
+            @Html.ValidationMessageFor(m => m.CustomerId)
+        </div>
+        <h3>Products</h3>
+        <table>
+            <thead><tr><th>Select</th><th>Product</th><th>Price</th><th>In stock</th><th>Quantity</th></tr></thead>
+            <tbody>
+            @for (var i = 0; i < Model.Products.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(m => m.Products[i].ProductId)
+                        @Html.CheckBoxFor(m => m.Products[i].Selected)
+                    </td>
+                    <td>@Model.Products[i].Name</td>
+                    <td>@Model.Products[i].Price.ToString("C")</td>
+                    <td>@Model.Products[i].AvailableStock</td>
+                    <td>@Html.TextBoxFor(m => m.Products[i].Quantity, new { type = "number", min = "0" })</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <p><input type="submit" value="Place order" /></p>
+    </div>
+}
+<p>@Html.ActionLink("Back to orders", "Index")</p>
+@section scripts { @Html.Partial("_ValidationScriptsPartial") }
