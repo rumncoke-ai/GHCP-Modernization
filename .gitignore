@@ -10,5 +10,5 @@
 [Oo]bj/
 [Tt]est[Rr]esults/
 
-# NuGet dependencies (restore from packages.config)
+# NuGet dependencies (restored from PackageReference)
 /packages/
