@@ -69,7 +69,7 @@ namespace LegacyShop.Tests.Business
             unitOfWork.SetupGet(u => u.Customers).Returns(customers.Object);
             var service = new OrderService(unitOfWork.Object);
 
-            InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(
+            InvalidOperationException exception = Assert.ThrowsExactly<InvalidOperationException>(
                 () => service.CreateOrder(2, new Dictionary<int, int> { { 4, 3 } }));
 
             StringAssert.Contains(exception.Message, "not enough stock");

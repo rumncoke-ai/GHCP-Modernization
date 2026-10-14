@@ -18,7 +18,7 @@ namespace LegacyShop.Tests.Business
             var product = new Product { Name = "Invalid", Price = -1m, StockQuantity = 1 };
 
             InvalidOperationException exception =
-                Assert.ThrowsException<InvalidOperationException>(() => service.CreateProduct(product));
+                Assert.ThrowsExactly<InvalidOperationException>(() => service.CreateProduct(product));
 
             Assert.AreEqual("A product price cannot be negative.", exception.Message);
             unitOfWork.Verify(u => u.Complete(), Times.Never);

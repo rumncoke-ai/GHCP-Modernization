@@ -1,4 +1,4 @@
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using LegacyShop.Business.Interfaces;
 using LegacyShop.Data.Entities;
 using LegacyShop.Web.Controllers;
@@ -21,7 +21,7 @@ namespace LegacyShop.Tests.Controllers
 
             ActionResult result = controller.Details(5);
 
-            Assert.IsInstanceOfType(result, typeof(HttpNotFoundResult));
+            Assert.IsInstanceOfType<NotFoundResult>(result);
         }
     }
 }
