@@ -1,6 +1,5 @@
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using LegacyShop.Business.Interfaces;
-using LegacyShop.Business.Services;
 using LegacyShop.Data.Entities;
 using LegacyShop.Web.ViewModels;
 
@@ -10,11 +9,6 @@ namespace LegacyShop.Web.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-
-        public ProductsController()
-            : this(new ProductService(), new CategoryService())
-        {
-        }
 
         public ProductsController(IProductService productService, ICategoryService categoryService)
         {
@@ -39,21 +33,11 @@ namespace LegacyShop.Web.Controllers
             Product product = _productService.GetProduct(id);
             if (product == null || !product.IsActive)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             return View(product);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _productService.Dispose();
-                _categoryService.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
     }
 }

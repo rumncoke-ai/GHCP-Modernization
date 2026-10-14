@@ -1,22 +1,18 @@
 using System;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using LegacyShop.Business.Interfaces;
-using LegacyShop.Business.Services;
 using LegacyShop.Data.Entities;
 using LegacyShop.Web.ViewModels;
 
 namespace LegacyShop.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-
-        public ProductsController()
-            : this(new ProductService(), new CategoryService())
-        {
-        }
 
         public ProductsController(IProductService productService, ICategoryService categoryService)
         {
@@ -32,7 +28,7 @@ namespace LegacyShop.Web.Areas.Admin.Controllers
         public ActionResult Details(int id)
         {
             Product product = _productService.GetProduct(id);
-            return product == null ? (ActionResult)HttpNotFound() : View(product);
+            return product == null ? (ActionResult)NotFound() : View(product);
         }
 
         public ActionResult Create()
@@ -66,7 +62,7 @@ namespace LegacyShop.Web.Areas.Admin.Controllers
             Product product = _productService.GetProduct(id);
             if (product == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             PopulateCategories(product.CategoryId);
@@ -105,7 +101,7 @@ namespace LegacyShop.Web.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
             Product product = _productService.GetProduct(id);
-            return product == null ? (ActionResult)HttpNotFound() : View(product);
+            return product == null ? (ActionResult)NotFound() : View(product);
         }
 
         [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
@@ -121,7 +117,7 @@ namespace LegacyShop.Web.Areas.Admin.Controllers
                 Product product = _productService.GetProduct(id);
                 if (product == null)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
 
                 ModelState.AddModelError("", ex.Message);
@@ -152,15 +148,5 @@ namespace LegacyShop.Web.Areas.Admin.Controllers
             };
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _productService.Dispose();
-                _categoryService.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
     }
 }

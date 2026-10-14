@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using LegacyShop.Business.Interfaces;
-using LegacyShop.Business.Services;
 using LegacyShop.Data.Entities;
 using LegacyShop.Web.ViewModels;
 
@@ -14,11 +14,6 @@ namespace LegacyShop.Web.Controllers
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;
         private readonly IProductService _productService;
-
-        public OrdersController()
-            : this(new OrderService(), new CustomerService(), new ProductService())
-        {
-        }
 
         public OrdersController(
             IOrderService orderService,
@@ -40,7 +35,7 @@ namespace LegacyShop.Web.Controllers
             Order order = _orderService.GetOrder(id);
             if (order == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             return View(MapDetails(order));
@@ -104,7 +99,7 @@ namespace LegacyShop.Web.Controllers
             Order order = _orderService.GetOrder(id);
             if (order == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             ViewBag.Statuses = StatusSelectList(order.Status);
@@ -124,7 +119,7 @@ namespace LegacyShop.Web.Controllers
                 Order order = _orderService.GetOrder(id);
                 if (order == null)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
 
                 ModelState.AddModelError("", ex.Message);
@@ -136,7 +131,7 @@ namespace LegacyShop.Web.Controllers
         public ActionResult Delete(int id)
         {
             Order order = _orderService.GetOrder(id);
-            return order == null ? (ActionResult)HttpNotFound() : View(MapDetails(order));
+            return order == null ? (ActionResult)NotFound() : View(MapDetails(order));
         }
 
         [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
@@ -149,7 +144,7 @@ namespace LegacyShop.Web.Controllers
             }
             catch (InvalidOperationException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
 
@@ -203,16 +198,5 @@ namespace LegacyShop.Web.Controllers
             };
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _orderService.Dispose();
-                _customerService.Dispose();
-                _productService.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
     }
 }

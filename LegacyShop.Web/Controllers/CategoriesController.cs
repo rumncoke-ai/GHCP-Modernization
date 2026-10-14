@@ -1,7 +1,6 @@
 using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using LegacyShop.Business.Interfaces;
-using LegacyShop.Business.Services;
 using LegacyShop.Data.Entities;
 
 namespace LegacyShop.Web.Controllers
@@ -9,11 +8,6 @@ namespace LegacyShop.Web.Controllers
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
-
-        public CategoriesController()
-            : this(new CategoryService())
-        {
-        }
 
         public CategoriesController(ICategoryService categoryService)
         {
@@ -28,7 +22,7 @@ namespace LegacyShop.Web.Controllers
         public ActionResult Details(int id)
         {
             Category category = _categoryService.GetCategory(id);
-            return category == null ? (ActionResult)HttpNotFound() : View(category);
+            return category == null ? (ActionResult)NotFound() : View(category);
         }
 
         public ActionResult Create()
@@ -58,7 +52,7 @@ namespace LegacyShop.Web.Controllers
         public ActionResult Edit(int id)
         {
             Category category = _categoryService.GetCategory(id);
-            return category == null ? (ActionResult)HttpNotFound() : View(category);
+            return category == null ? (ActionResult)NotFound() : View(category);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -83,7 +77,7 @@ namespace LegacyShop.Web.Controllers
         public ActionResult Delete(int id)
         {
             Category category = _categoryService.GetCategory(id);
-            return category == null ? (ActionResult)HttpNotFound() : View(category);
+            return category == null ? (ActionResult)NotFound() : View(category);
         }
 
         [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
@@ -99,7 +93,7 @@ namespace LegacyShop.Web.Controllers
                 Category category = _categoryService.GetCategory(id);
                 if (category == null)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
 
                 ModelState.AddModelError("", ex.Message);
@@ -107,14 +101,5 @@ namespace LegacyShop.Web.Controllers
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _categoryService.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
     }
 }

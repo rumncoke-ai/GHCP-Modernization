@@ -1,7 +1,6 @@
 using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using LegacyShop.Business.Interfaces;
-using LegacyShop.Business.Services;
 using LegacyShop.Data.Entities;
 
 namespace LegacyShop.Web.Controllers
@@ -9,11 +8,6 @@ namespace LegacyShop.Web.Controllers
     public class CustomersController : Controller
     {
         private readonly ICustomerService _customerService;
-
-        public CustomersController()
-            : this(new CustomerService())
-        {
-        }
 
         public CustomersController(ICustomerService customerService)
         {
@@ -28,7 +22,7 @@ namespace LegacyShop.Web.Controllers
         public ActionResult Details(int id)
         {
             Customer customer = _customerService.GetCustomer(id);
-            return customer == null ? (ActionResult)HttpNotFound() : View(customer);
+            return customer == null ? (ActionResult)NotFound() : View(customer);
         }
 
         public ActionResult Create()
@@ -58,7 +52,7 @@ namespace LegacyShop.Web.Controllers
         public ActionResult Edit(int id)
         {
             Customer customer = _customerService.GetCustomer(id);
-            return customer == null ? (ActionResult)HttpNotFound() : View(customer);
+            return customer == null ? (ActionResult)NotFound() : View(customer);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -83,7 +77,7 @@ namespace LegacyShop.Web.Controllers
         public ActionResult Delete(int id)
         {
             Customer customer = _customerService.GetCustomer(id);
-            return customer == null ? (ActionResult)HttpNotFound() : View(customer);
+            return customer == null ? (ActionResult)NotFound() : View(customer);
         }
 
         [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
@@ -99,7 +93,7 @@ namespace LegacyShop.Web.Controllers
                 Customer customer = _customerService.GetCustomer(id);
                 if (customer == null)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
 
                 ModelState.AddModelError("", ex.Message);
@@ -107,14 +101,5 @@ namespace LegacyShop.Web.Controllers
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _customerService.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
     }
 }
