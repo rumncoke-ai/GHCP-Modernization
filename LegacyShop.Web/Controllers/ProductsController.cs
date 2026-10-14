@@ -39,7 +39,7 @@ namespace LegacyShop.Web.Controllers
             Product product = _productService.GetProduct(id);
             if (product == null || !product.IsActive)
             {
-                return HttpNotFound();
+                return View("NotFound");
             }
 
             return View(product);

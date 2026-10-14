@@ -14,7 +14,8 @@ namespace LegacyShop.Web.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                new { controller = "Products", action = "Index", id = UrlParameter.Optional });
+                new { controller = "Products", action = "Index", id = UrlParameter.Optional },
+                new[] { "LegacyShop.Web.Areas.Admin.Controllers" });
         }
     }
 }
